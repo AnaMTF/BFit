@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:spacing="16dp">
+
+        <EditText
+            android:id="@+id/editSteps"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:hint="Pași făcuți"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/editCaloriesIn"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:hint="Calorii consumate"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/editCaloriesOut"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:hint="Calorii arse"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="121dp"
+            android:layout_marginTop="16dp"
+            android:layout_height="61dp"
+            android:text="Salvează" />
+    </LinearLayout>
+</ScrollView>
