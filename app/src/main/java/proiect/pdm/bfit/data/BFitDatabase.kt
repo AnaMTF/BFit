@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [UserEntity::class, DailyStatsEntity::class, MealEntity::class, WorkoutEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class BFitDatabase : RoomDatabase(){

@@ -10,4 +10,12 @@
     <string name="menu_dashboard">Dashboard</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="welcome_to_bfit">Welcome to BFit</string>
+    <string name="bfit_is_a_fitness_and_wellness_app_meant_for_monitoring_the_daily_activities_and_meals">BFit is a fitness and wellness app meant for monitoring the daily activities and meals.</string>
+    <string name="image_of_the_logo">image of the logo</string>
+    <string name="why_it_s_useful_it_gives_you_a_clear_overview_of_your_fitness_habits_and_helps_you_stay_motivated_and_consistent">Why it’s useful? It gives you a clear overview of your fitness habits and helps you stay motivated and consistent.</string>
+    <string name="made_by_anamaria_bogdan_and_marius">Made by Anamaria, Bogdan and Marius</string>
+    <string name="daily_dashboard_steps_calories_n_meal_and_workout_logging_n_progress_history_n_widget_and_sensor_support">• Daily dashboard (steps, calories)\n• Meal and workout logging\n• Progress history\n• Widget and sensor support</string>
+    <string name="about_app">About App</string>
+    <string name="adaug_date">Adaugă date</string>
 </resources>

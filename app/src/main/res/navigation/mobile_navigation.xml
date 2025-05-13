@@ -28,4 +28,10 @@
         android:name="proiect.pdm.bfit.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_about_app"
+        android:name="proiect.pdm.bfit.ui.about_app.AboutAppFragment"
+        android:label="@string/about_app"
+        tools:layout="@layout/fragment_about_app" />
 </navigation>
