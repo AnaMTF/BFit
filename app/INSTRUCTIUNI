@@ -1,0 +1,30 @@
+MARIUS:
+
+pentru pagina de workout si de mancare procedezi relativ asemanator. Iti gasesti un fisier XML / JSON
+pentru fiecare din care sa iei datele pt mancarea/workoutul respectiv. faci un picker cu toate variantele pe care le ai luat
+din acel json/xml apoi populezi restul de campuri. la workout sa lasi utilizatorul sa aleaga cat timp a facut acel exercitiu
+si sa ii calculezi caloriile arse. la mancare sa il lasi sa isi aleaga cantitatea si unitatea de masura
+apoi sa ii arati caloriile, proteinele, carbohidratii etc.. sa pui poza eventual pt fiecare (si workout si mancare)
+
+VEZI SA PUI IN TABELELE RESPECTIVE SI DATA CURENTA ATUNCI CAND ADAUGA UN WORKOUT CA SA II APARA LUI AMO IN DASHBOARD
+1!!!
+LA SETARI SA PUI OPTIUNEA DE A SCHIMBA POZA DE PROFIL, USERNAME, PAROLA, HEIGHT, WEIGHT etc (vezi ce am pus in
+tabelul cu users)
+cand se schimba aceste date (poza si numele) sa faci sa se schimbe si in meniul ala din stanga unde sunt si paginile
+una sub alta
+pe langa asta sa pui theme si preferinte pt unitatea de masura, macar doua optiuni metric si imperial
+
+vezi ce stil pui sa fie asemanator cu ce am facut si eu
+
+
+ideea pt tabele e sa contina si id-ul userului care a logat chestiile si data actuala, apoi ca sa le gasim
+pt dashboard sa le cautam dupa idul userului actual si data de azi.
+
+AMO:
+
+mai adaugi o pagina pt harta aia cu nearby gyms
+la dashboard vreau sa se vada datele pe ziua curenta, eventual si un pie chart cu caloriile consumate si cate au ramas
+ce workouturi a facut utilizatorul azi, ce a mancat azi si cata apa a baut. sa faci butonul ala rotund din dreapta
+sa iti dea optiunea sa dai log fie la meal, la workout sau la apa.
+daca poti sa pui si niste sageti stanga si dreapta ca sa navighezi printre zile would be very cool
+la widget sincer habar n-am, daca ai nevoie de ajutor sa ma documentez, sa mi spui
