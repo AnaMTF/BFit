@@ -18,4 +18,25 @@
     <string name="daily_dashboard_steps_calories_n_meal_and_workout_logging_n_progress_history_n_widget_and_sensor_support">• Daily dashboard (steps, calories)\n• Meal and workout logging\n• Progress history\n• Widget and sensor support</string>
     <string name="about_app">About App</string>
     <string name="adaug_date">Adaugă date</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="height_cm">Height (cm)</string>
+    <string name="weight_kg">Weight (kg)</string>
+    <string name="age">Age</string>
+    <string name="log_in">Log In</string>
+    <string-array name="activity_levels">
+        <item>Sedentary</item>
+        <item>Lightly active</item>
+        <item>Moderately active</item>
+        <item>Very active</item>
+        <item>Super active</item>
+    </string-array>
+
+    <string-array name="goals">
+        <item>Lose weight</item>
+        <item>Maintain weight</item>
+        <item>Gain muscle</item>
+    </string-array>
+
 </resources>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_login">
 
     <fragment
         android:id="@+id/nav_home"
@@ -28,6 +28,31 @@
         android:name="proiect.pdm.bfit.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_register"
+        android:name="proiect.pdm.bfit.ui.register.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_nav_register_to_nav_initialdetails"
+            app:destination="@id/nav_initialdetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_initialdetails"
+        android:name="proiect.pdm.bfit.ui.initial_details.InitialDetailsFragment"
+        android:label="Initial Details About You"
+        tools:layout="@layout/fragment_initial_details" />
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="proiect.pdm.bfit.ui.login.LoginFragment"
+        android:label="Log into Your Account"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_nav_register"
+            app:destination="@id/nav_register" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_about_app"
