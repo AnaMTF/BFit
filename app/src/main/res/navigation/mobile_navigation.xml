@@ -24,6 +24,12 @@
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
+        android:id="@+id/nav_gym_map"
+        android:name="proiect.pdm.bfit.ui.gym_map.GymMapFragment"
+        android:label="@string/gym_map"
+        tools:layout="@layout/fragment_gym_map" />
+
+    <fragment
         android:id="@+id/nav_slideshow"
         android:name="proiect.pdm.bfit.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"

@@ -25,6 +25,7 @@
     <string name="weight_kg">Weight (kg)</string>
     <string name="age">Age</string>
     <string name="log_in">Log In</string>
+    <string name="gym_map">Gym Map</string>
     <string-array name="activity_levels">
         <item>Sedentary</item>
         <item>Lightly active</item>
