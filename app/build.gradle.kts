@@ -84,4 +84,10 @@ dependencies {
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
     implementation ("com.google.android.libraries.places:places:3.4.0")
     implementation ("com.google.android.gms:play-services-location:21.1.0")
+
+    // Places SDK for Android KTX Library
+    implementation ("com.google.maps.android:places-ktx:3.1.1")
+
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0")) // 1.8+ required
+    implementation("com.google.android.libraries.places:places:4.1.0")  // or 3.5.0+
 }
