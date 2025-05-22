@@ -86,6 +86,11 @@ dependencies {
     implementation ("com.google.android.libraries.places:places:3.4.0")
     implementation ("com.google.android.gms:play-services-location:21.1.0")
 
+        implementation ("com.github.bumptech.glide:glide:4.15.1")
+        kapt ("com.github.bumptech.glide:compiler:4.15.1")  // dacă folosești Kotlin
+
+
+
     // Places SDK for Android KTX Library
     implementation ("com.google.maps.android:places-ktx:3.1.1")
 

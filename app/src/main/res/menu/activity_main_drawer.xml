@@ -20,11 +20,11 @@
         <item
             android:id="@+id/nav_workout_log"
             android:title="Workout Log"
-            android:icon="@drawable/circle_background" />
+            android:icon="@drawable/fitness" />
         <item
             android:id="@+id/nav_food_log"
             android:title="Food Log"
-            android:icon="@drawable/circle_background"
+            android:icon="@drawable/food"
             />
 
         <item

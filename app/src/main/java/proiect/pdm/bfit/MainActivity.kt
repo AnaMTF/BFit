@@ -1,9 +1,11 @@
 package proiect.pdm.bfit
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -13,9 +15,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -64,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+
 
         /* FAB vizibil doar pe Dashboard*/
         fab = binding.appBarMain.fab
@@ -87,7 +91,7 @@ class MainActivity : AppCompatActivity() {
 
         val prefs    = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val username = prefs.getString("logged_in_username", null)
-
+        navView.setupWithNavController(navController)
         if (username != null) {
             lifecycleScope.launch {
                 val userDao = BFitDatabase.getDatabase(this@MainActivity).userDao()
@@ -95,7 +99,8 @@ class MainActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     userId = user?.id ?: 0L
                     runOnUiThread {
-                        binding.navView.setNavigationItemSelectedListener { menuItem ->
+
+                        navView.setNavigationItemSelectedListener { menuItem ->
                             when (menuItem.itemId) {
                                 R.id.nav_workout_log -> {
                                     val intent = Intent(this@MainActivity, WorkoutLogActivity::class.java).apply {
@@ -115,7 +120,12 @@ class MainActivity : AppCompatActivity() {
                                     true
                                 }
 
-                                else -> false
+                                else -> {
+                                    // Navigare normală cu NavController pentru fragmente
+                                    val handled = NavigationUI.onNavDestinationSelected(menuItem, navController)
+                                    if (handled) binding.drawerLayout.closeDrawer(GravityCompat.START)
+                                    handled
+                                }
                             }
                         }
                     }
@@ -150,9 +160,12 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean =
         navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 
+
     private fun updateDrawerHeader() {
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val username = prefs.getString("logged_in_username", null)
+        val profileImageUriString = prefs.getString("profile_image_uri", null)
+
         if (username != null) {
             lifecycleScope.launch {
                 val userDao = BFitDatabase.getDatabase(this@MainActivity).userDao()
@@ -161,10 +174,25 @@ class MainActivity : AppCompatActivity() {
                     val headerView = binding.navView.getHeaderView(0)
                     val tvUsername = headerView.findViewById<TextView>(R.id.tvHeaderUsername)
                     val tvWeight = headerView.findViewById<TextView>(R.id.tvHeaderWeight)
+                    val ivProfile = headerView.findViewById<ImageView>(R.id.imageViewProfilePicHeader) // asigură-te că ai ImageView în header
+
                     tvUsername.text = user?.username ?: username
                     tvWeight.text = (user?.weightKg ?: 0).toString() + " kg"
+
+                    if (profileImageUriString != null) {
+                        Glide.with(this@MainActivity)
+                            .load(Uri.parse(profileImageUriString))
+                            .into(ivProfile)
+
+                    }
                 }
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        updateDrawerHeader()
+    }
+
 }
