@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [UserEntity::class, DailyStatsEntity::class, MealEntity::class, WorkoutEntity::class],
-    version = 3,
+    version = 5,
     exportSchema = false
 )
 abstract class BFitDatabase : RoomDatabase(){
@@ -25,11 +25,14 @@ abstract class BFitDatabase : RoomDatabase(){
                     context.applicationContext,
                     BFitDatabase::class.java,
                     "bfit_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration() // ← Adaugă această linie
+                    .build()
                 INSTANCE = instance
                 instance
             }
         }
+
 
     }
 }

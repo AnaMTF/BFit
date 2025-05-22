@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Running",
+    "caloriesPerMinute": 10,
+    "image": "running.png"
+  },
+  {
+    "name": "Cycling",
+    "caloriesPerMinute": 8,
+    "image": "cycling.png"
+  },
+  {
+    "name": "Jump Rope",
+    "caloriesPerMinute": 12,
+    "image": "ropejumping.png"
+  },
+  {
+    "name": "Swimming",
+    "caloriesPerMinute": 9,
+    "image": "swim.png"
+  },
+  {
+    "name": "Yoga",
+    "caloriesPerMinute": 4,
+    "image": "yoga.png"
+  },
+  {
+    "name": "Weightlifting",
+    "caloriesPerMinute": 6,
+    "image": "weightlift.png"
+  },
+  {
+    "name": "Hiking",
+    "caloriesPerMinute": 7,
+    "image": "hike.png"
+  },
+  {
+    "name": "Dancing",
+    "caloriesPerMinute": 6,
+    "image": "dance.png"
+  },
+  {
+    "name": "Rowing",
+    "caloriesPerMinute": 9,
+    "image": "rowing.png"
+  },
+  {
+    "name": "Boxing",
+    "caloriesPerMinute": 11,
+    "image": "boxing.png"
+  }
+]
