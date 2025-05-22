@@ -26,6 +26,7 @@
     <string name="age">Age</string>
     <string name="log_in">Log In</string>
     <string name="gym_map">Gym Map</string>
+    <string name="map_with_all_nearby_gyms">Map with all nearby gyms</string>
     <string-array name="activity_levels">
         <item>Sedentary</item>
         <item>Lightly active</item>
@@ -82,4 +83,5 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
 
+    <string name="google_maps_key">AIzaSyB05LHeHneoWKE4GzEwrlx60FVl5ZOB7VI</string>
 </resources>
