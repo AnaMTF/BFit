@@ -10,6 +10,7 @@ import java.io.InputStreamReader
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,6 +24,7 @@ data class WorkoutDefinition(
     val image: String
 )
 
+@AndroidEntryPoint
 class WorkoutLogActivity : AppCompatActivity() {
 
     private lateinit var workouts: List<WorkoutDefinition>

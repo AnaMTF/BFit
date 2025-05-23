@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import proiect.pdm.bfit.data.BFitDatabase
 import proiect.pdm.bfit.databinding.ActivityMainBinding
@@ -30,6 +31,7 @@ import proiect.pdm.bfit.ui.foodlog.FoodLogActivity
 import proiect.pdm.bfit.ui.settings.SettingsActivity
 import proiect.pdm.bfit.ui.workoutlog.WorkoutLogActivity
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -59,11 +61,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
-                R.id.nav_gallery,
-                R.id.nav_slideshow,
                 R.id.nav_about_app,
                 R.id.nav_gym_map,
-                R.id.nav_add_daily_stats
             ),
             drawerLayout
         )
@@ -131,7 +130,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 tvUsername.text = user?.username ?: username
-                tvWeight.text   = (user?.weightKg ?: 0).toString() + " kg"
+                tvWeight.text = (user?.weightKg ?: 0).toString() + " kg"
             }
 //
         }

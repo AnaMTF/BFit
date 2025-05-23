@@ -15,15 +15,18 @@ import proiect.pdm.bfit.data.StatsDao
 import proiect.pdm.bfit.data.UserDao
 import proiect.pdm.bfit.data.WorkoutDao
 import javax.inject.Singleton
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
 @InstallIn(SingletonComponent::class)
-class DatabaseProvider {
+object DatabaseProvider {
+
     @Provides
     @Singleton
-    fun provideDatabase(context: Context): BFitDatabase {
-        return BFitDatabase.getDatabase(context)
-    }
+    fun provideDatabase(
+        @ApplicationContext context: Context
+    ): BFitDatabase =
+        BFitDatabase.getDatabase(context)
 
     @Provides
     @Singleton

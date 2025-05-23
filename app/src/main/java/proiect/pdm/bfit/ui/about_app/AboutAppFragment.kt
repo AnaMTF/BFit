@@ -11,8 +11,10 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import proiect.pdm.bfit.R
 
+@AndroidEntryPoint
 class AboutAppFragment : Fragment(), SensorEventListener {
 
     private lateinit var logoImage: ImageView
