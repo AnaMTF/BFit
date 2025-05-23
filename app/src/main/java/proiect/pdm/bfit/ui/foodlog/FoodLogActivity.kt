@@ -41,7 +41,7 @@ class FoodLogActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_food_log)
+        setContentView(R.layout.fragment_food_log)
 
         // Inițializări
         mealTypeSpinner = findViewById(R.id.spinnerMealType)

@@ -33,7 +33,7 @@ class WorkoutLogActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_workout_log)
+        setContentView(R.layout.fragment_workout_log)
 
         spinner = findViewById(R.id.spinnerWorkouts)
         imgWorkout = findViewById(R.id.imgWorkout)

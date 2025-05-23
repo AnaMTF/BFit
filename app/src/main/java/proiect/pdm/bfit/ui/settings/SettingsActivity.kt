@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
-import org.checkerframework.checker.units.qual.Length
 import proiect.pdm.bfit.R
 import proiect.pdm.bfit.data.BFitDatabase
 import proiect.pdm.bfit.data.UserDao
@@ -47,7 +46,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(R.layout.fragment_settings)
         usernameEditText = findViewById(R.id.editUsername)
         passwordEditText = findViewById(R.id.editPassword)
         heightEditText = findViewById(R.id.editHeight)

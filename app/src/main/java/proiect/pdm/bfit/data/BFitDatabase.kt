@@ -7,8 +7,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [UserEntity::class, DailyStatsEntity::class, MealEntity::class, WorkoutEntity::class],
-    version = 4,
-    exportSchema = false
+    version = 4
 )
 abstract class BFitDatabase : RoomDatabase(){
     abstract fun userDao(): UserDao
@@ -19,16 +18,16 @@ abstract class BFitDatabase : RoomDatabase(){
     companion object {
         @Volatile private var INSTANCE: BFitDatabase? = null
 
+        @Synchronized
         fun getDatabase(context: Context): BFitDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
+            if (INSTANCE == null){
+                INSTANCE = Room.databaseBuilder(
+                    context,
                     BFitDatabase::class.java,
                     "bfit_database"
-                ).build()
-                INSTANCE = instance
-                instance
+                ).fallbackToDestructiveMigration(true).build()
             }
+            return INSTANCE!!
         }
 
     }
