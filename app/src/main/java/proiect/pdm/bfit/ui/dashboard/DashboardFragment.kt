@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import proiect.pdm.bfit.R
 import proiect.pdm.bfit.data.BFitDatabase
@@ -15,8 +16,9 @@ import proiect.pdm.bfit.data.DailyStatsEntity
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class DashboardFragment : Fragment() {
-
+/*
     private val dashboardViewModel: DashboardViewModel by viewModels()
 
     override fun onCreateView(
@@ -49,18 +51,18 @@ class DashboardFragment : Fragment() {
         }
 
         // 👁️ Observator pentru LiveData
-        dashboardViewModel.dailyStats.observe(viewLifecycleOwner) { stats ->
-            if (stats != null) {
-                stepsText.text = "Pași: ${stats.steps}"
-                intakeText.text = "Calorii consumate: ${stats.caloriesIntake}"
-                burnedText.text = "Calorii arse: ${stats.caloriesBurned}"
-            } else {
-                stepsText.text = "Fără date pentru azi"
-                intakeText.text = ""
-                burnedText.text = ""
-            }
-        }
+//        dashboardViewModel.dailyStats.observe(viewLifecycleOwner) { stats ->
+//            if (stats != null) {
+//                stepsText.text = "Pași: ${stats.steps}"
+//                intakeText.text = "Calorii consumate: ${stats.caloriesIntake}"
+//                burnedText.text = "Calorii arse: ${stats.caloriesBurned}"
+//            } else {
+//                stepsText.text = "Fără date pentru azi"
+//                intakeText.text = ""
+//                burnedText.text = ""
+//            }
+//        }
 
         return view
-    }
+    }*/
 }

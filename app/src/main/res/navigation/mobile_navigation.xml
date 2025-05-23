@@ -12,28 +12,10 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/nav_add_daily_stats"
-        android:name="proiect.pdm.bfit.ui.addstats.AddDailyStatsFragment"
-        android:label="Adaugă date"
-        tools:layout="@layout/fragment_add_daily_stats" />
-
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="proiect.pdm.bfit.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
         android:id="@+id/nav_gym_map"
         android:name="proiect.pdm.bfit.ui.gym_map.GymMapFragment"
         android:label="@string/gym_map"
         tools:layout="@layout/fragment_gym_map" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="proiect.pdm.bfit.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_register"
@@ -44,6 +26,7 @@
             android:id="@+id/action_nav_register_to_nav_initialdetails"
             app:destination="@id/nav_initialdetails" />
     </fragment>
+
     <fragment
         android:id="@+id/nav_initialdetails"
         android:name="proiect.pdm.bfit.ui.initial_details.InitialDetailsFragment"
@@ -65,4 +48,16 @@
         android:name="proiect.pdm.bfit.ui.about_app.AboutAppFragment"
         android:label="@string/about_app"
         tools:layout="@layout/fragment_about_app" />
+
+    <fragment
+        android:id="@+id/nav_workout_log"
+        android:name="proiect.pdm.bfit.ui.workoutlog.WorkoutLogFragment"
+        android:label="Workout Log"
+        tools:layout="@layout/fragment_workout_log" />
+
+    <fragment
+        android:id="@+id/nav_food_log"
+        android:name="proiect.pdm.bfit.ui.foodlog.FoodLogFragment"
+        android:label="Food Log"
+        tools:layout="@layout/fragment_food_log" />
 </navigation>

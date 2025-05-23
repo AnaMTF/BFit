@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import proiect.pdm.bfit.R
 import proiect.pdm.bfit.data.BFitDatabase
 import proiect.pdm.bfit.ui.register.RegisterViewModel
 
+@AndroidEntryPoint
 class InitialDetailsFragment : Fragment() {
 
     private val sharedViewModel: RegisterViewModel by activityViewModels()

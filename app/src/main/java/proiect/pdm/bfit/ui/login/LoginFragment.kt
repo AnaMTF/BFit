@@ -9,10 +9,12 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import proiect.pdm.bfit.R
 import proiect.pdm.bfit.data.BFitDatabase
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     override fun onCreateView(
