@@ -8,14 +8,15 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
-    entities = [UserEntity::class, DailyStatsEntity::class, MealEntity::class, WorkoutEntity::class],
-    version = 5
+    entities = [UserEntity::class, DailyStatsEntity::class, MealEntity::class, WorkoutEntity::class, FoodEntity::class],
+    version = 6
 )
 abstract class BFitDatabase : RoomDatabase(){
     abstract fun userDao(): UserDao
     abstract fun statsDao(): StatsDao
     abstract fun mealDao(): MealDao
     abstract fun workoutDao(): WorkoutDao
+    abstract fun foodDao(): FoodDao
 
     companion object {
         @Volatile private var INSTANCE: BFitDatabase? = null
@@ -27,6 +28,21 @@ abstract class BFitDatabase : RoomDatabase(){
             }
         }
 
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("""
+                    CREATE TABLE IF NOT EXISTS foods (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                        name TEXT NOT NULL,
+                        calories REAL NOT NULL,
+                        protein REAL NOT NULL,
+                        carbs REAL NOT NULL,
+                        fat REAL NOT NULL
+                    )
+                """)
+            }
+        }
+
         @Synchronized
         fun getDatabase(context: Context): BFitDatabase {
             if (INSTANCE == null){
@@ -35,7 +51,7 @@ abstract class BFitDatabase : RoomDatabase(){
                     BFitDatabase::class.java,
                     "bfit_database"
                 )
-                .addMigrations(MIGRATION_4_5)
+                .addMigrations(MIGRATION_4_5, MIGRATION_5_6)
                 .build()
             }
             return INSTANCE!!

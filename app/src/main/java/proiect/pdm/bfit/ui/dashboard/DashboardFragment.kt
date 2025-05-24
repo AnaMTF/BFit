@@ -131,8 +131,8 @@ class DashboardFragment : Fragment() {
         pieChart.apply {
             description.isEnabled = false
             legend.isEnabled = true
-            setEntryLabelColor(Color.WHITE)
-            setEntryLabelTextSize(12f)
+            setEntryLabelColor(Color.BLACK)
+            setEntryLabelTextSize(16f)
             setHoleColor(Color.WHITE)
             setTransparentCircleColor(Color.WHITE)
             setTransparentCircleAlpha(110)
@@ -158,10 +158,14 @@ class DashboardFragment : Fragment() {
             Color.rgb(255, 99, 71), // Tomato color for consumed
             Color.rgb(144, 238, 144) // Light green for burned
         )
+        dataSet.valueTextColor = Color.BLACK
+        dataSet.valueTextSize = 18f
+        dataSet.valueTypeface = android.graphics.Typeface.DEFAULT_BOLD
 
         val data = PieData(dataSet)
-        data.setValueTextSize(12f)
-        data.setValueTextColor(Color.WHITE)
+        data.setValueTextSize(18f)
+        data.setValueTextColor(Color.BLACK)
+        data.setValueTypeface(android.graphics.Typeface.DEFAULT_BOLD)
 
         pieChart.data = data
         pieChart.animateY(1000)
