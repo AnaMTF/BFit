@@ -9,5 +9,7 @@ data class DailyStatsEntity(
     val date: String, // Format YYYY-MM-DD
     val steps: Int,
     val caloriesIntake: Int,
-    val caloriesBurned: Int
+    val caloriesBurned: Int,
+    val waterIntake: Int = 0,
+    val workouts: Int = 0
 )
