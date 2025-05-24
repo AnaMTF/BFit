@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/register_background_gradient"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -48,17 +49,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView3"
-        android:layout_width="367dp"
-        android:layout_height="354dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="259dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/light_circle_background"
         android:clipToOutline="true"
         android:contentDescription="@string/image_of_the_logo"
+        android:outlineProvider="background"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img_logo1png" />
+        app:layout_constraintVertical_bias="0.054"
+        app:shapeAppearance="@mipmap/ic_launcher_round" />
 </androidx.constraintlayout.widget.ConstraintLayout>
