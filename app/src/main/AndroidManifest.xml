@@ -45,7 +45,20 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Cheia Maps -->
+        </activity>
+
+        <receiver
+            android:name=".widget.BFitStatsWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/bfit_stats_widget_info" />
+        </receiver>
+
+        <!-- Cheia Maps -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
