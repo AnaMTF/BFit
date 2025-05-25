@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var fab: FloatingActionButton
-    private var userId: Long = 0L
+    var userId: Long = 0L
     private val settingsLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
             updateDrawerHeader() // reîncarcă userul din DB și actualizează UI-ul
@@ -72,10 +72,55 @@ class MainActivity : AppCompatActivity() {
         /* FAB vizibil doar pe Dashboard*/
         fab = binding.appBarMain.fab
         fab.setOnClickListener { v ->
-            Snackbar
-                .make(v, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab)
+            val options = arrayOf("Log Workout", "Log Meal", "Log Water")
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("What would you like to log?")
+                .setItems(options) { _, which ->
+                    when (which) {
+                        0 -> {
+                            val intent = Intent(this, WorkoutLogActivity::class.java).apply {
+                                putExtra("USER_ID", userId)
+                            }
+                            startActivity(intent)
+                        }
+                        1 -> {
+                            val intent = Intent(this, FoodLogActivity::class.java).apply {
+                                putExtra("USER_ID", userId)
+                            }
+                            startActivity(intent)
+                        }
+                        2 -> {
+                            // Show water logging dialog
+                            val dialogView = layoutInflater.inflate(R.layout.dialog_water_input, null)
+                            val waterInput = dialogView.findViewById<android.widget.EditText>(R.id.waterInput)
+
+                            androidx.appcompat.app.AlertDialog.Builder(this)
+                                .setTitle("Add Water Intake")
+                                .setView(dialogView)
+                                .setPositiveButton("Add") { _, _ ->
+                                    val amount = waterInput.text.toString().toIntOrNull() ?: 250
+                                    lifecycleScope.launch {
+                                        val statsDao = BFitDatabase.getDatabase(this@MainActivity).statsDao()
+                                        val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
+                                        val currentStats = statsDao.getStatsByDate(today) ?: proiect.pdm.bfit.data.DailyStatsEntity(
+                                            date = today,
+                                            steps = 0,
+                                            caloriesIntake = 0,
+                                            caloriesBurned = 0,
+                                            waterIntake = 0,
+                                            workouts = 0
+                                        )
+                                        val updatedStats = currentStats.copy(
+                                            waterIntake = currentStats.waterIntake + amount
+                                        )
+                                        statsDao.insert(updatedStats)
+                                    }
+                                }
+                                .setNegativeButton("Cancel", null)
+                                .show()
+                        }
+                    }
+                }
                 .show()
         }
 

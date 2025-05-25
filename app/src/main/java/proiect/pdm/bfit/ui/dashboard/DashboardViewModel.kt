@@ -19,6 +19,8 @@ class DashboardViewModel @Inject constructor(
 
 //    private val statsDao = BFitDatabase.getDatabase(statsRepository).statsDao()
 
+    private var userId: Long = 0L
+
     private val _dailyStats = MutableLiveData<DailyStatsEntity?>()
     val dailyStats: LiveData<DailyStatsEntity?> = _dailyStats
 
@@ -29,6 +31,10 @@ class DashboardViewModel @Inject constructor(
         _selectedDate.value = getTodayDate()
         loadStatsForDate(_selectedDate.value!!)
         initializeFoodDatabase()
+    }
+
+    fun setUserId(id: Long) {
+        userId = id
     }
 
     private fun initializeFoodDatabase() {
@@ -130,11 +136,24 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    fun addWorkout() {
+    fun addWorkout(workoutType: String, duration: Int, calories: Int) {
         viewModelScope.launch {
             val currentStats = _dailyStats.value ?: createNewDailyStats()
+            
+            // Create and save the workout
+            val workout = WorkoutEntity(
+                dayDate = _selectedDate.value!!,
+                name = workoutType,
+                durationMinutes = duration,
+                caloriesBurned = calories,
+                userId = userId
+            )
+            workoutRepository.addWorkout(workout)
+            
+            // Update daily stats
             val updatedStats = currentStats.copy(
-                workouts = currentStats.workouts + 1
+                workouts = currentStats.workouts + 1,
+                caloriesBurned = currentStats.caloriesBurned + calories
             )
             statsRepository.addDailyStats(updatedStats)
             _dailyStats.value = updatedStats

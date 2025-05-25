@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +18,7 @@ import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import proiect.pdm.bfit.MainActivity
 import proiect.pdm.bfit.R
 import proiect.pdm.bfit.data.BFitDatabase
 import proiect.pdm.bfit.data.DailyStatsEntity
@@ -33,6 +36,11 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
+
+        // Get user ID from MainActivity
+        val mainActivity = requireActivity() as MainActivity
+        val userId = mainActivity.userId
+        dashboardViewModel.setUserId(userId)
 
         // Initialize database access
         val context = requireContext().applicationContext
@@ -94,17 +102,17 @@ class DashboardFragment : Fragment() {
 
         // Add water button
         view.findViewById<MaterialButton>(R.id.addWaterButton).setOnClickListener {
-            dashboardViewModel.addWaterIntake(250)
+            showWaterDialog()
         }
 
         // Add steps button
         view.findViewById<MaterialButton>(R.id.addStepsButton).setOnClickListener {
-            dashboardViewModel.addSteps(1000)
+            showStepsDialog()
         }
 
         // Add workout button
         view.findViewById<MaterialButton>(R.id.addWorkoutButton).setOnClickListener {
-            dashboardViewModel.addWorkout()
+            showWorkoutDialog()
         }
     }
 
@@ -124,6 +132,55 @@ class DashboardFragment : Fragment() {
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
+    }
+
+    private fun showWaterDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_water_input, null)
+        val waterInput = dialogView.findViewById<EditText>(R.id.waterInput)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Add Water Intake")
+            .setView(dialogView)
+            .setPositiveButton("Add") { _, _ ->
+                val amount = waterInput.text.toString().toIntOrNull() ?: 250
+                dashboardViewModel.addWaterIntake(amount)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showStepsDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_steps_input, null)
+        val stepsInput = dialogView.findViewById<EditText>(R.id.stepsInput)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Add Steps")
+            .setView(dialogView)
+            .setPositiveButton("Add") { _, _ ->
+                val steps = stepsInput.text.toString().toIntOrNull() ?: 1000
+                dashboardViewModel.addSteps(steps)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showWorkoutDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_workout_input, null)
+        val workoutTypeInput = dialogView.findViewById<EditText>(R.id.workoutTypeInput)
+        val durationInput = dialogView.findViewById<EditText>(R.id.durationInput)
+        val caloriesInput = dialogView.findViewById<EditText>(R.id.caloriesInput)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Add Workout")
+            .setView(dialogView)
+            .setPositiveButton("Add") { _, _ ->
+                val workoutType = workoutTypeInput.text.toString()
+                val duration = durationInput.text.toString().toIntOrNull() ?: 30
+                val calories = caloriesInput.text.toString().toIntOrNull() ?: 200
+                dashboardViewModel.addWorkout(workoutType, duration, calories)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun setupPieChart(view: View) {
