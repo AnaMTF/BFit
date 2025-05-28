@@ -63,10 +63,10 @@ class DashboardViewModel @Inject constructor(
             val stats = statsRepository.getDailyStatsByDate(date)
             
             // Get workouts for the date
-            val workouts = workoutRepository.getWorkoutsByDate(date)
+            val workouts = workoutRepository.getWorkoutsByDate(date, userId)
             
             // Get meals for the date
-            val meals = mealRepository.getMealsByDate(date)
+            val meals = mealRepository.getMealsByDate(date, userId)
             
             // Calculate total calories burned from workouts
             val totalCaloriesBurned = workouts.sumOf { it.caloriesBurned }

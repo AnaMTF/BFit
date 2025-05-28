@@ -27,10 +27,12 @@ import proiect.pdm.bfit.data.DailyStatsEntity
 import proiect.pdm.bfit.data.MealEntity
 import java.text.SimpleDateFormat
 import java.util.*
+import android.util.Log
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
 
+    private val TAG = "DashboardFragment"
     private val dashboardViewModel: DashboardViewModel by viewModels()
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private lateinit var breakfastAdapter: MealAdapter
@@ -97,14 +99,24 @@ class DashboardFragment : Fragment() {
             
             // Update meals for the selected date
             lifecycleScope.launch {
-                val meals = mealDao.getMealsByDate(date)
+                Log.d(TAG, "Fetching meals for date: $date")
+                val userId = (requireActivity() as MainActivity).userId
+                val meals = BFitDatabase.getDatabase(requireContext()).mealDao().getMealsByDate(date, userId)
+                Log.d(TAG, "Retrieved meals for date $date: $meals")
+                
                 val breakfastMeals = meals.filter { it.mealType == "Breakfast" }
                 val lunchMeals = meals.filter { it.mealType == "Lunch" }
                 val dinnerMeals = meals.filter { it.mealType == "Dinner" }
                 
+                Log.d(TAG, "Breakfast meals: $breakfastMeals")
+                Log.d(TAG, "Lunch meals: $lunchMeals")
+                Log.d(TAG, "Dinner meals: $dinnerMeals")
+                
                 breakfastAdapter.updateMeals(breakfastMeals)
                 lunchAdapter.updateMeals(lunchMeals)
                 dinnerAdapter.updateMeals(dinnerMeals)
+                
+                dashboardViewModel.refreshStats()
             }
         }
 
@@ -201,15 +213,30 @@ class DashboardFragment : Fragment() {
                 val unit = unitInput.text.toString()
                 
                 lifecycleScope.launch {
+                    val userId = (requireActivity() as MainActivity).userId
                     val meal = MealEntity(
                         dayDate = dashboardViewModel.selectedDate.value!!,
-                        userId = (requireActivity() as MainActivity).userId,
+                        userId = userId,
                         mealType = mealType,
                         name = name,
                         quantity = quantity,
                         unit = unit
                     )
+                    Log.d(TAG, "Adding meal: $meal")
                     BFitDatabase.getDatabase(requireContext()).mealDao().insert(meal)
+                    
+                    // Immediately refresh the meals for the current date
+                    val meals = BFitDatabase.getDatabase(requireContext()).mealDao().getMealsByDate(dashboardViewModel.selectedDate.value!!, userId)
+                    Log.d(TAG, "Retrieved meals: $meals")
+                    
+                    val breakfastMeals = meals.filter { it.mealType == "Breakfast" }
+                    val lunchMeals = meals.filter { it.mealType == "Lunch" }
+                    val dinnerMeals = meals.filter { it.mealType == "Dinner" }
+                    
+                    breakfastAdapter.updateMeals(breakfastMeals)
+                    lunchAdapter.updateMeals(lunchMeals)
+                    dinnerAdapter.updateMeals(dinnerMeals)
+                    
                     dashboardViewModel.refreshStats()
                 }
             }
