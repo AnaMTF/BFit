@@ -141,7 +141,7 @@
             android:layout_height="wrap_content"
             android:text="Save"
             android:textStyle="bold"
-            android:backgroundTint="@android:color/holo_blue_light"
-            android:textColor="@android:color/white" />
+            android:backgroundTint="@color/purple_500"
+            android:textColor="@color/white" />
     </LinearLayout>
 </ScrollView>

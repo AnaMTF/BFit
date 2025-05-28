@@ -16,7 +16,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import proiect.pdm.bfit.data.BFitDatabase
 import proiect.pdm.bfit.data.WorkoutEntity
-
+import proiect.pdm.bfit.data.DailyStatsEntity
+import proiect.pdm.bfit.data.StatsRepository
 
 data class WorkoutDefinition(
     val name: String,
@@ -32,10 +33,13 @@ class WorkoutLogActivity : AppCompatActivity() {
     private lateinit var imgWorkout: ImageView
     private lateinit var etMinutes: EditText
     private lateinit var btnSave: Button
+    private lateinit var statsRepository: StatsRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_workout_log)
+
+        statsRepository = StatsRepository(BFitDatabase.getDatabase(this).statsDao())
 
         spinner = findViewById(R.id.spinnerWorkouts)
         imgWorkout = findViewById(R.id.imgWorkout)
@@ -80,34 +84,6 @@ class WorkoutLogActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long
-            ) {
-                val selectedWorkout = workouts[position]
-                // imaginea trebuie să fie în res/drawable/
-                val imageResId = resources.getIdentifier(
-                    selectedWorkout.image.removeSuffix(".png"),
-                    "drawable",
-                    packageName
-                )
-                imgWorkout.setImageResource(imageResId)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        btnSave.setOnClickListener {
-            val selected = workouts[spinner.selectedItemPosition]
-            val minutes = etMinutes.text.toString().toIntOrNull() ?: 0
-
-            Toast.makeText(
-                this,
-                "Selected: ${selected.name}, Minutes: $minutes",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
         btnSave.setOnClickListener {
             val selected = workouts[spinner.selectedItemPosition]
             val minutes = etMinutes.text.toString().toIntOrNull()
@@ -139,11 +115,27 @@ class WorkoutLogActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val dao = BFitDatabase.getDatabase(this@WorkoutLogActivity).workoutDao()
                 dao.insert(workout)
+
+                // Update daily stats
+                val currentStats = statsRepository.getDailyStatsByDate(today) ?: DailyStatsEntity(
+                    date = today,
+                    steps = 0,
+                    caloriesIntake = 0,
+                    caloriesBurned = 0,
+                    waterIntake = 0,
+                    workouts = 0
+                )
+
+                val updatedStats = currentStats.copy(
+                    caloriesBurned = currentStats.caloriesBurned + totalCalories,
+                    workouts = currentStats.workouts + 1
+                )
+                statsRepository.addDailyStats(updatedStats)
+
                 Toast.makeText(this@WorkoutLogActivity, "Workout saved!", Toast.LENGTH_SHORT).show()
                 etMinutes.text.clear()
             }
         }
-
     }
 
     private fun loadWorkoutsFromJson() {
@@ -153,5 +145,4 @@ class WorkoutLogActivity : AppCompatActivity() {
         workouts = Gson().fromJson(reader, type)
         reader.close()
     }
-
 }

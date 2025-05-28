@@ -14,6 +14,8 @@ import proiect.pdm.bfit.data.WorkoutRepository
 import proiect.pdm.bfit.data.StatsDao
 import proiect.pdm.bfit.data.UserDao
 import proiect.pdm.bfit.data.WorkoutDao
+import proiect.pdm.bfit.data.FoodDao
+import proiect.pdm.bfit.data.FoodRepository
 import javax.inject.Singleton
 import dagger.hilt.android.qualifiers.ApplicationContext
 
@@ -55,6 +57,12 @@ object DatabaseProvider {
 
     @Provides
     @Singleton
+    fun provideFoodDao(database: BFitDatabase): FoodDao {
+        return database.foodDao()
+    }
+
+    @Provides
+    @Singleton
     fun provideUserRepository(userDao: UserDao): UserRepository {
         return UserRepository(userDao)
     }
@@ -75,5 +83,11 @@ object DatabaseProvider {
     @Singleton
     fun provideWorkoutRepository(workoutDao: WorkoutDao): WorkoutRepository {
         return WorkoutRepository(workoutDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFoodRepository(foodDao: FoodDao): FoodRepository {
+        return FoodRepository(foodDao)
     }
 }

@@ -1,5 +1,6 @@
 package proiect.pdm.bfit.data
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
@@ -25,4 +26,14 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE id = :id")
     suspend fun getUserById(id: Long): UserEntity?
+
+    // Cursor-based methods for ContentProvider
+    @Query("SELECT * FROM users")
+    fun getAllCursor(): Cursor
+
+    @Query("SELECT * FROM users WHERE id = :id")
+    fun getUserByIdCursor(id: Long): Cursor
+
+    @Query("DELETE FROM users WHERE id = :id")
+    fun deleteUserById(id: Long): Int
 }

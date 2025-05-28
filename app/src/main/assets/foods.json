@@ -103,5 +103,12 @@
     "protein": 25,
     "carbs": 1.3,
     "fat": 33
+  },
+  {
+    "name": "Pasta",
+    "calories": 100,
+    "protein": 5,
+    "carbs": 20,
+    "fat": 1
   }
 ]
