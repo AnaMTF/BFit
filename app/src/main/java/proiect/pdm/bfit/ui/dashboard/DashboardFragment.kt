@@ -12,6 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -22,6 +24,7 @@ import proiect.pdm.bfit.MainActivity
 import proiect.pdm.bfit.R
 import proiect.pdm.bfit.data.BFitDatabase
 import proiect.pdm.bfit.data.DailyStatsEntity
+import proiect.pdm.bfit.data.MealEntity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,6 +33,9 @@ class DashboardFragment : Fragment() {
 
     private val dashboardViewModel: DashboardViewModel by viewModels()
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    private lateinit var breakfastAdapter: MealAdapter
+    private lateinit var lunchAdapter: MealAdapter
+    private lateinit var dinnerAdapter: MealAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +51,10 @@ class DashboardFragment : Fragment() {
         // Initialize database access
         val context = requireContext().applicationContext
         val statsDao = BFitDatabase.getDatabase(context).statsDao()
+        val mealDao = BFitDatabase.getDatabase(context).mealDao()
+
+        // Setup RecyclerViews
+        setupRecyclerViews(view)
 
         // Insert temporary data if no entry exists for today
         lifecycleScope.launch {
@@ -84,9 +94,56 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.selectedDate.observe(viewLifecycleOwner) { date ->
             view.findViewById<MaterialButton>(R.id.dateSelectorButton).text = 
                 SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(dateFormat.parse(date)!!)
+            
+            // Update meals for the selected date
+            lifecycleScope.launch {
+                val meals = mealDao.getMealsByDate(date)
+                val breakfastMeals = meals.filter { it.mealType == "Breakfast" }
+                val lunchMeals = meals.filter { it.mealType == "Lunch" }
+                val dinnerMeals = meals.filter { it.mealType == "Dinner" }
+                
+                breakfastAdapter.updateMeals(breakfastMeals)
+                lunchAdapter.updateMeals(lunchMeals)
+                dinnerAdapter.updateMeals(dinnerMeals)
+            }
         }
 
         return view
+    }
+
+    private fun setupRecyclerViews(view: View) {
+        // Breakfast RecyclerView
+        val breakfastRecyclerView = view.findViewById<RecyclerView>(R.id.breakfastRecyclerView)
+        breakfastRecyclerView.layoutManager = LinearLayoutManager(context)
+        breakfastAdapter = MealAdapter(emptyList()) { meal ->
+            lifecycleScope.launch {
+                BFitDatabase.getDatabase(requireContext()).mealDao().deleteMeal(meal)
+                dashboardViewModel.refreshStats()
+            }
+        }
+        breakfastRecyclerView.adapter = breakfastAdapter
+
+        // Lunch RecyclerView
+        val lunchRecyclerView = view.findViewById<RecyclerView>(R.id.lunchRecyclerView)
+        lunchRecyclerView.layoutManager = LinearLayoutManager(context)
+        lunchAdapter = MealAdapter(emptyList()) { meal ->
+            lifecycleScope.launch {
+                BFitDatabase.getDatabase(requireContext()).mealDao().deleteMeal(meal)
+                dashboardViewModel.refreshStats()
+            }
+        }
+        lunchRecyclerView.adapter = lunchAdapter
+
+        // Dinner RecyclerView
+        val dinnerRecyclerView = view.findViewById<RecyclerView>(R.id.dinnerRecyclerView)
+        dinnerRecyclerView.layoutManager = LinearLayoutManager(context)
+        dinnerAdapter = MealAdapter(emptyList()) { meal ->
+            lifecycleScope.launch {
+                BFitDatabase.getDatabase(requireContext()).mealDao().deleteMeal(meal)
+                dashboardViewModel.refreshStats()
+            }
+        }
+        dinnerRecyclerView.adapter = dinnerAdapter
     }
 
     private fun setupButtonListeners(view: View) {
@@ -114,6 +171,50 @@ class DashboardFragment : Fragment() {
         view.findViewById<MaterialButton>(R.id.addWorkoutButton).setOnClickListener {
             showWorkoutDialog()
         }
+
+        // Add meal buttons
+        view.findViewById<MaterialButton>(R.id.addBreakfastButton).setOnClickListener {
+            showMealDialog("Breakfast")
+        }
+
+        view.findViewById<MaterialButton>(R.id.addLunchButton).setOnClickListener {
+            showMealDialog("Lunch")
+        }
+
+        view.findViewById<MaterialButton>(R.id.addDinnerButton).setOnClickListener {
+            showMealDialog("Dinner")
+        }
+    }
+
+    private fun showMealDialog(mealType: String) {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_meal_input, null)
+        val nameInput = dialogView.findViewById<EditText>(R.id.mealNameInput)
+        val quantityInput = dialogView.findViewById<EditText>(R.id.mealQuantityInput)
+        val unitInput = dialogView.findViewById<EditText>(R.id.mealUnitInput)
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Add $mealType")
+            .setView(dialogView)
+            .setPositiveButton("Add") { _, _ ->
+                val name = nameInput.text.toString()
+                val quantity = quantityInput.text.toString().toFloatOrNull() ?: 0f
+                val unit = unitInput.text.toString()
+                
+                lifecycleScope.launch {
+                    val meal = MealEntity(
+                        dayDate = dashboardViewModel.selectedDate.value!!,
+                        userId = (requireActivity() as MainActivity).userId,
+                        mealType = mealType,
+                        name = name,
+                        quantity = quantity,
+                        unit = unit
+                    )
+                    BFitDatabase.getDatabase(requireContext()).mealDao().insert(meal)
+                    dashboardViewModel.refreshStats()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun showDatePicker() {

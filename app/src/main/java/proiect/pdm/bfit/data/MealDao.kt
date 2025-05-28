@@ -9,4 +9,7 @@ interface MealDao {
 
     @Query("SELECT * FROM meals WHERE dayDate = :date")
     suspend fun getMealsByDate(date: String): List<MealEntity>
+
+    @Delete
+    suspend fun deleteMeal(meal: MealEntity)
 }
