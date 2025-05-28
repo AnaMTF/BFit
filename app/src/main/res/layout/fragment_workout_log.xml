@@ -67,8 +67,8 @@
             android:text="Save Workout"
             android:textStyle="bold"
             android:layout_marginTop="28dp"
-            android:backgroundTint="@android:color/holo_blue_light"
-            android:textColor="@android:color/white" />
+            android:backgroundTint="@color/purple_500"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tvTotalCalories"
