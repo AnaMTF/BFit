@@ -8,12 +8,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
-
-        <!-- Logo circular -->
-
-        <!-- Titlu -->
+        android:layout_marginTop="30dp"
+        android:padding="20dp"
+        android:background="#9E673AB7"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_titlu"
@@ -37,48 +36,44 @@
             android:scaleType="centerCrop"
             android:src="@drawable/img_logo2" />
 
-        <!-- Descriere -->
         <TextView
             android:id="@+id/tv_descriere"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:lineSpacingExtra="4dp"
             android:text="@string/bfit_is_a_fitness_and_wellness_app_meant_for_monitoring_the_daily_activities_and_meals"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:layout_marginBottom="12dp"
-            android:lineSpacingExtra="4dp" />
+            android:textSize="16sp" />
 
-        <!-- Utilitate -->
         <TextView
             android:id="@+id/tv_utilizare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:lineSpacingExtra="4dp"
             android:text="@string/why_it_s_useful_it_gives_you_a_clear_overview_of_your_fitness_habits_and_helps_you_stay_motivated_and_consistent"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:layout_marginBottom="12dp"
-            android:lineSpacingExtra="4dp" />
+            android:textSize="16sp" />
 
-        <!-- Funcționalități -->
         <TextView
             android:id="@+id/tv_features"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:lineSpacingExtra="4dp"
             android:text="@string/daily_dashboard_steps_calories_n_meal_and_workout_logging_n_progress_history_n_widget_and_sensor_support"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp"
-            android:lineSpacingExtra="4dp" />
+            android:textSize="16sp" />
 
-        <!-- Autorii -->
         <TextView
             android:id="@+id/tv_madeby"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/made_by_anamaria_bogdan_and_marius"
             android:textColor="#EEEEEE"
-            android:textSize="14sp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp" />
+            android:textSize="14sp" />
     </LinearLayout>
 </ScrollView>

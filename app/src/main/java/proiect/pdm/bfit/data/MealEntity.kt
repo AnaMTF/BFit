@@ -11,5 +11,6 @@ data class MealEntity(
     val mealType: String,      // ex: "Breakfast", "Lunch", "Dinner"
     val name: String,          // ex: "Oatmeal", "Chicken Breast"
     val quantity: Float,
-    val unit: String           // ex: "g" sau "oz"
+    val unit: String,           // ex: "g" sau "oz"
+    val calories: Int = 0
 )

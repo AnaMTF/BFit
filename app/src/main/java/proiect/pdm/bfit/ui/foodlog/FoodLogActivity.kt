@@ -160,6 +160,9 @@ class FoodLogActivity : AppCompatActivity() {
     private fun loadFoodData() {
         lifecycleScope.launch {
             foodItems = foodRepository.getAllFoods()
+            for (food in foodItems) {
+                android.util.Log.d("FoodLog", "Loaded food: $food")
+            }
             val foodNames = foodItems.map { it.name }
             val adapter = ArrayAdapter(this@FoodLogActivity, android.R.layout.simple_spinner_item, foodNames)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

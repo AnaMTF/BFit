@@ -12,4 +12,8 @@ interface StatsDao {
 
     @Query("SELECT * FROM daily_stats ORDER BY date DESC")
     suspend fun getAll(): List<DailyStatsEntity>
+
+    @Update
+    suspend fun update(stats: DailyStatsEntity)
+
 }

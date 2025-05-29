@@ -15,6 +15,7 @@
             android:id="@+id/workoutTypeInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#6FBBA4E2"
             android:inputType="text"
             android:maxLength="50"/>
 
@@ -30,6 +31,7 @@
             android:id="@+id/durationInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#6FBBA4E2"
             android:inputType="number"
             android:maxLength="3"/>
 
@@ -44,6 +46,7 @@
             android:id="@+id/caloriesInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#6FBBA4E2"
             android:inputType="number"
             android:maxLength="4"/>
 
