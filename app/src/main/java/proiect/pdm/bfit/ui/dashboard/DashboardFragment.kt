@@ -141,43 +141,53 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.refreshStats()
     }
 
-
-
-
     private fun setupRecyclerViews(view: View) {
-        // Breakfast RecyclerView
+        val userId = (requireActivity() as MainActivity).userId
+
+        fun confirmDelete(meal: MealEntity) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Delete meal")
+                .setMessage("Are you sure you want to delete '${meal.name}'?")
+                .setPositiveButton("Yes") { _, _ ->
+                    lifecycleScope.launch {
+                        val db = BFitDatabase.getDatabase(requireContext())
+                        val date = dashboardViewModel.selectedDate.value!!
+
+                        db.mealDao().deleteMeal(meal)
+
+                        // Reîncarcă mesele
+                        val meals = db.mealDao().getMealsByDate(date, userId)
+                        breakfastAdapter.updateMeals(meals.filter { it.mealType == "Breakfast" })
+                        lunchAdapter.updateMeals(meals.filter { it.mealType == "Lunch" })
+                        dinnerAdapter.updateMeals(meals.filter { it.mealType == "Dinner" })
+
+                        // Update stats și grafic
+                        dashboardViewModel.refreshStats()
+                    }
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+
+        // Breakfast
         val breakfastRecyclerView = view.findViewById<RecyclerView>(R.id.breakfastRecyclerView)
         breakfastRecyclerView.layoutManager = LinearLayoutManager(context)
-        breakfastAdapter = MealAdapter(emptyList()) { meal ->
-            lifecycleScope.launch {
-                BFitDatabase.getDatabase(requireContext()).mealDao().deleteMeal(meal)
-                dashboardViewModel.refreshStats()
-            }
-        }
+        breakfastAdapter = MealAdapter(emptyList()) { meal -> confirmDelete(meal) }
         breakfastRecyclerView.adapter = breakfastAdapter
 
-        // Lunch RecyclerView
+        // Lunch
         val lunchRecyclerView = view.findViewById<RecyclerView>(R.id.lunchRecyclerView)
         lunchRecyclerView.layoutManager = LinearLayoutManager(context)
-        lunchAdapter = MealAdapter(emptyList()) { meal ->
-            lifecycleScope.launch {
-                BFitDatabase.getDatabase(requireContext()).mealDao().deleteMeal(meal)
-                dashboardViewModel.refreshStats()
-            }
-        }
+        lunchAdapter = MealAdapter(emptyList()) { meal -> confirmDelete(meal) }
         lunchRecyclerView.adapter = lunchAdapter
 
-        // Dinner RecyclerView
+        // Dinner
         val dinnerRecyclerView = view.findViewById<RecyclerView>(R.id.dinnerRecyclerView)
         dinnerRecyclerView.layoutManager = LinearLayoutManager(context)
-        dinnerAdapter = MealAdapter(emptyList()) { meal ->
-            lifecycleScope.launch {
-                BFitDatabase.getDatabase(requireContext()).mealDao().deleteMeal(meal)
-                dashboardViewModel.refreshStats()
-            }
-        }
+        dinnerAdapter = MealAdapter(emptyList()) { meal -> confirmDelete(meal) }
         dinnerRecyclerView.adapter = dinnerAdapter
     }
+
 
     private fun setupButtonListeners(view: View) {
         // Date selector button
