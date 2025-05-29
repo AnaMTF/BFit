@@ -75,9 +75,17 @@ class DashboardViewModel @Inject constructor(
                 } else {
                     meal.quantity
                 }
+
                 val food = foodRepository.getFoodByName(meal.name)
-                (quantityInGrams / 100f * (food?.calories ?: 0f)).toInt()
+
+                if (food != null) {
+                    (quantityInGrams / 100f * food.calories).toInt()
+                } else {
+                    // fallback la valoarea introdusă manual
+                    meal.calories
+                }
             }
+
 
             val updatedStats = stats?.copy(
                 caloriesBurned = totalCaloriesBurned,
