@@ -66,11 +66,11 @@ class DashboardFragment : Fragment() {
                 statsDao.insert(
                     DailyStatsEntity(
                         date = today,
-                        steps = 7500,
-                        caloriesIntake = 1200,
-                        caloriesBurned = 400,
-                        waterIntake = 1500,
-                        workouts = 2
+                        steps = 0,
+                        caloriesIntake = 0,
+                        caloriesBurned = 0,
+                        waterIntake = 0,
+                        workouts = 0
                     )
                 )
             }
@@ -88,6 +88,8 @@ class DashboardFragment : Fragment() {
                 view.findViewById<TextView>(R.id.textSteps).text = "${stats.steps} steps today"
                 view.findViewById<TextView>(R.id.textWater).text = "${stats.waterIntake} / 2000 ml"
                 view.findViewById<TextView>(R.id.textWorkouts).text = "${stats.workouts} workouts today"
+                Log.d("Dashboard", "caloriesIntake = ${stats.caloriesIntake}, caloriesBurned = ${stats.caloriesBurned}")
+
                 updatePieChart(view, stats.caloriesIntake, stats.caloriesBurned)
             }
         }
@@ -122,6 +124,25 @@ class DashboardFragment : Fragment() {
 
         return view
     }
+
+    override fun onResume() {
+        super.onResume()
+        val date = dashboardViewModel.selectedDate.value ?: return
+        val userId = (requireActivity() as MainActivity).userId
+
+        lifecycleScope.launch {
+            val meals = BFitDatabase.getDatabase(requireContext()).mealDao().getMealsByDate(date, userId)
+            breakfastAdapter.updateMeals(meals.filter { it.mealType == "Breakfast" })
+            lunchAdapter.updateMeals(meals.filter { it.mealType == "Lunch" })
+            dinnerAdapter.updateMeals(meals.filter { it.mealType == "Dinner" })
+        }
+        Log.d("DashboardFragment", "onResume: refreshing meals after returning from FoodLogActivity")
+
+        dashboardViewModel.refreshStats()
+    }
+
+
+
 
     private fun setupRecyclerViews(view: View) {
         // Breakfast RecyclerView
@@ -203,6 +224,7 @@ class DashboardFragment : Fragment() {
         val nameInput = dialogView.findViewById<EditText>(R.id.mealNameInput)
         val quantityInput = dialogView.findViewById<EditText>(R.id.mealQuantityInput)
         val unitInput = dialogView.findViewById<EditText>(R.id.mealUnitInput)
+        val caloriesInput = dialogView.findViewById<EditText>(R.id.mealCaloriesInput)
 
         AlertDialog.Builder(requireContext())
             .setTitle("Add $mealType")
@@ -211,35 +233,99 @@ class DashboardFragment : Fragment() {
                 val name = nameInput.text.toString()
                 val quantity = quantityInput.text.toString().toFloatOrNull() ?: 0f
                 val unit = unitInput.text.toString()
-                
+                val calories = caloriesInput.text.toString().toIntOrNull() ?: 0
+
                 lifecycleScope.launch {
                     val userId = (requireActivity() as MainActivity).userId
+                    val date = dashboardViewModel.selectedDate.value!!
+                    val db = BFitDatabase.getDatabase(requireContext())
+                    val mealDao = db.mealDao()
+                    val statsDao = db.statsDao()
+
+                    // Insert meal
                     val meal = MealEntity(
-                        dayDate = dashboardViewModel.selectedDate.value!!,
+                        dayDate = date,
                         userId = userId,
                         mealType = mealType,
                         name = name,
                         quantity = quantity,
-                        unit = unit
+                        unit = unit,
+                        calories = calories
                     )
                     Log.d(TAG, "Adding meal: $meal")
-                    BFitDatabase.getDatabase(requireContext()).mealDao().insert(meal)
-                    
-                    // Immediately refresh the meals for the current date
-                    val meals = BFitDatabase.getDatabase(requireContext()).mealDao().getMealsByDate(dashboardViewModel.selectedDate.value!!, userId)
-                    Log.d(TAG, "Retrieved meals: $meals")
-                    
-                    val breakfastMeals = meals.filter { it.mealType == "Breakfast" }
-                    val lunchMeals = meals.filter { it.mealType == "Lunch" }
-                    val dinnerMeals = meals.filter { it.mealType == "Dinner" }
-                    
-                    breakfastAdapter.updateMeals(breakfastMeals)
-                    lunchAdapter.updateMeals(lunchMeals)
-                    dinnerAdapter.updateMeals(dinnerMeals)
-                    
+                    mealDao.insert(meal)
+
+                    // Update caloriesIntake
+                    val currentStats = statsDao.getStatsByDate(date)
+                    if (currentStats != null) {
+                        val updatedStats = DailyStatsEntity(
+                            id = currentStats.id,
+                            date = currentStats.date,
+                            steps = currentStats.steps,
+                            caloriesIntake = currentStats.caloriesIntake + calories,
+                            caloriesBurned = currentStats.caloriesBurned,
+                            waterIntake = currentStats.waterIntake,
+                            workouts = currentStats.workouts
+                        )
+                        statsDao.update(updatedStats)
+                    }
+
+
+                    // Refresh meals list
+                    val meals = mealDao.getMealsByDate(date, userId)
+                    breakfastAdapter.updateMeals(meals.filter { it.mealType == "Breakfast" })
+                    lunchAdapter.updateMeals(meals.filter { it.mealType == "Lunch" })
+                    dinnerAdapter.updateMeals(meals.filter { it.mealType == "Dinner" })
+
+                    // 🔁 Refresh LiveData for stats and pie chart
                     dashboardViewModel.refreshStats()
                 }
             }
+
+//            .setPositiveButton("Add") { _, _ ->
+//                val name = nameInput.text.toString()
+//                val quantity = quantityInput.text.toString().toFloatOrNull() ?: 0f
+//                val unit = unitInput.text.toString()
+//                val calories = caloriesInput.text.toString().toIntOrNull() ?: 0
+//
+//                lifecycleScope.launch {
+//                    val userId = (requireActivity() as MainActivity).userId
+//                    val meal = MealEntity(
+//                        dayDate = dashboardViewModel.selectedDate.value!!,
+//                        userId = userId,
+//                        mealType = mealType,
+//                        name = name,
+//                        quantity = quantity,
+//                        unit = unit,
+//                        calories = calories
+//                    )
+//                    Log.d(TAG, "Adding meal: $meal")
+//                    BFitDatabase.getDatabase(requireContext()).mealDao().insert(meal)
+//                    val statsDao = BFitDatabase.getDatabase(requireContext()).statsDao()
+//                    val currentStats = statsDao.getStatsByDate(dashboardViewModel.selectedDate.value!!)
+//                    if (currentStats != null) {
+//                        val updatedStats = currentStats.copy(
+//                            caloriesIntake = currentStats.caloriesIntake + calories
+//                        )
+//                        statsDao.update(updatedStats)
+//                    }
+//
+//
+//                    // Immediately refresh the meals for the current date
+//                    val meals = BFitDatabase.getDatabase(requireContext()).mealDao().getMealsByDate(dashboardViewModel.selectedDate.value!!, userId)
+//                    Log.d(TAG, "Retrieved meals: $meals")
+//
+//                    val breakfastMeals = meals.filter { it.mealType == "Breakfast" }
+//                    val lunchMeals = meals.filter { it.mealType == "Lunch" }
+//                    val dinnerMeals = meals.filter { it.mealType == "Dinner" }
+//
+//                    breakfastAdapter.updateMeals(breakfastMeals)
+//                    lunchAdapter.updateMeals(lunchMeals)
+//                    dinnerAdapter.updateMeals(dinnerMeals)
+//
+//                    dashboardViewModel.refreshStats()
+//                }
+//            }
             .setNegativeButton("Cancel", null)
             .show()
     }

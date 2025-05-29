@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:backgroundTint="@android:color/holo_purple"
             app:popupTheme="@style/Theme.BFit.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -27,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:backgroundTint="@android:color/holo_purple"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         app:srcCompat="@drawable/baseline_add_24" />

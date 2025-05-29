@@ -2,52 +2,52 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
+    android:background="#6FBBA4E2"
     android:fillViewport="true"
     android:padding="20dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:padding="24dp"
-        android:elevation="2dp"
         android:layout_margin="8dp"
+        android:background="@android:color/white"
         android:clipToPadding="false"
         android:divider="?android:attr/dividerVertical"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="24dp"
         android:showDividers="middle">
 
         <!-- Unit Selection -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Preferred Unit:"
-            android:textSize="16sp"
             android:layout_marginTop="40dp"
-            android:textStyle="bold"/>
+            android:text="@string/preferred_unit"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <RadioGroup
             android:id="@+id/radioGroupUnits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radioGram"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Grams" />
+                android:layout_weight="1"
+                android:text="@string/grams" />
 
             <RadioButton
                 android:id="@+id/radioOunce"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Ounces" />
+                android:layout_weight="1"
+                android:text="@string/ounces" />
         </RadioGroup>
 
         <!-- User Info -->
@@ -55,46 +55,46 @@
             android:id="@+id/editUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:hint="@string/username" />
 
         <EditText
             android:id="@+id/editPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
 
         <EditText
             android:id="@+id/editHeight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Height (cm)"
-            android:inputType="number"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:hint="@string/height_cm"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/editWeight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Weight (kg)"
-            android:inputType="number"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:hint="@string/weight_kg"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/editAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Age"
-            android:inputType="number"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:hint="@string/age"
+            android:inputType="number" />
 
         <!-- Activity Level -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Activity Level"
+            android:text="@string/activity_level"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -109,7 +109,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Goal"
+            android:text="@string/goal"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -119,29 +119,32 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="28dp" />
+
         <ImageView
             android:id="@+id/imageViewProfilePic"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
-            android:contentDescription="profile_picture"
+            android:contentDescription="@string/profile_picture"
             android:scaleType="centerCrop"
+            android:layout_gravity="center"
             android:src="@drawable/ic_launcher_foreground" />
 
         <Button
             android:id="@+id/buttonChoosePic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alege poză" />
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/holo_purple"
+            android:text="@string/choose_image" />
 
-        <!-- Save Button -->
         <Button
             android:id="@+id/buttonSaveSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/holo_purple"
             android:text="Save"
-            android:textStyle="bold"
-            android:backgroundTint="@color/purple_500"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

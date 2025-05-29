@@ -14,6 +14,7 @@
             android:id="@+id/waterInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#6FBBA4E2"
             android:inputType="number"
             android:maxLength="4"/>
 

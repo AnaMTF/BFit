@@ -42,4 +42,17 @@
     </string-array>
 
     <string name="google_maps_key">AIzaSyB05LHeHneoWKE4GzEwrlx60FVl5ZOB7VI</string>
+    <string name="choose_image">Choose image</string>
+    <string name="profile_picture">profile_picture</string>
+    <string name="goal">Goal</string>
+    <string name="activity_level">Activity Level</string>
+    <string name="ounces">Ounces</string>
+    <string name="grams">Grams</string>
+    <string name="preferred_unit">Preferred Unit:</string>
+    <string name="workout_image">Workout image</string>
+    <string name="save_workout">Save Workout</string>
+    <string name="total_calories_burned_0">Total Calories Burned: 0</string>
+    <string name="select_workout">Select workout:</string>
+    <string name="calories">Calories</string>
+    <string name="unit_g_oz_etc">Unit (g, oz, etc.)</string>
 </resources>

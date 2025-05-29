@@ -3,8 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Un ProgressBar simplu cât timp se face call-ul -->
-
     <ProgressBar
         android:id="@+id/progress"
         style="?android:attr/progressBarStyleLarge"

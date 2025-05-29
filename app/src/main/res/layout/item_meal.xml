@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
+    android:backgroundTint="#6FB6A0DB"
     app:cardCornerRadius="4dp"
     app:cardElevation="2dp">
 
@@ -24,13 +25,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/mealQuantityText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
         </LinearLayout>
 
         <ImageButton
@@ -39,8 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete meal"
             android:padding="8dp"
-            android:src="@android:drawable/ic_menu_delete"
-            android:contentDescription="Delete meal"/>
+            android:src="@android:drawable/ic_menu_delete" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView> 
